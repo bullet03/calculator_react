@@ -1,0 +1,51 @@
+.table {
+  background: #333;
+  width: 285px;
+  height: 480px;
+  border-spacing: 0;
+  border-radius: 8px;
+  padding: 4px;
+  text-align: center;
+}
+
+.upperRow {
+  background: #888;
+  border-radius: 8px;
+  border: 3px solid #777;
+  text-align: center;
+  color: white;
+  font-size: 40px;
+  height: 100px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.suqareButton {
+  border-radius: 8px;
+  border: 3px solid #777;
+  width: 50px;
+  height: 50px;
+  font-size: 17px;
+  transition: all 0.2s;
+}
+
+.suqareButton:hover,
+.suqareButton:focus
+ {
+  background: #555;
+}
+
+.rectangleButton {
+  border-radius: 8px;
+  border: 3px solid #777;
+  width: 120px;
+  height: 50px;
+  background: #999;
+  transition: all 0.2s;
+}
+
+.rectangleButton:hover,
+.rectangleButton:focus
+ {
+   background: #555;
+}
