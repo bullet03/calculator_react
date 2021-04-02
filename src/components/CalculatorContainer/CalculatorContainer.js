@@ -3,66 +3,87 @@ import Calculator from './Calculator'
 import styles from "./CalculatorContainer.module.css";
 
 const CalculatorContainer = () => {
-  const [stringOfNumbers, setStringOfNumbers] = useState("0");
+  const [previousNum, setPreviousNum] = useState("");
+  const [currentNum, setcurrentNum] = useState("");
+  const [operation, setOperation] = useState()
 
-  const deleteSign = () => {
-    setStringOfNumbers(stringOfNumbers.slice(0, stringOfNumbers.length - 1));
-  };
+  const appendNumber = (number) => {
+    if (number === "." && currentNum.includes(".")) return
+    setcurrentNum(`${currentNum}${number}`);
+  }
 
-  const checkForZero = (number) => {
-    if (stringOfNumbers[0] === "0") {
-      setStringOfNumbers(number);
-      return;
+  const operationChoose = (sign) => {
+    if (currentNum === "") return
+    if (previousNum !== "") {
+      resulCalculation()
     }
-    setStringOfNumbers(`${stringOfNumbers}${number}`);
-  };
+      switch (sign) {
+        case "+":
+          setOperation("+");
+          break;
+        case "-":
+          setOperation("-");
+          break;
+        case "/":
+          setOperation("/");
+          break;
+        case "*":
+          setOperation("*");
+          break;
+        default:
+          return;
+      }
+    setPreviousNum(currentNum)
+    setcurrentNum("")
+  }
+
+  const clearAll = () => {
+    setPreviousNum("")
+    setcurrentNum("")
+    setOperation()
+  }
 
   const resulCalculation = () => {
-    const arrayOfNumbers = stringOfNumbers.split("");
-    let indexOfFunction = 0;
-
-    for (let i = 0; i < arrayOfNumbers.length; i += 1) {
-      let number = arrayOfNumbers[i];
-      if (isNaN(+number) && number !== ".") {
-        indexOfFunction = i;
-        break;
-      }
-    }
-
-    const num1 = +stringOfNumbers.slice(0, indexOfFunction);
-    const num2 = +stringOfNumbers.slice(indexOfFunction + 1);
-    const sign = arrayOfNumbers[indexOfFunction];
-
-    switch (sign) {
+    if (isNaN(previousNum) || isNaN(currentNum)) return
+    const num1 = +previousNum;
+    const num2 = +currentNum;
+    switch (operation) {
       case "+":
-        setStringOfNumbers(num1 + num2);
+        setcurrentNum(num1 + num2);
         break;
       case "-":
-        setStringOfNumbers(num1 - num2);
+        setcurrentNum(num1 - num2);
         break;
       case "/":
-        if(num2 === 0) {
-          alert('do not devied by zero')
-          break
-        }
-        setStringOfNumbers(num1 / num2);
+        setcurrentNum(num1 / num2);
         break;
       case "*":
-        setStringOfNumbers(num1 * num2);
+        setcurrentNum(num1 * num2);
         break;
       default:
-        return stringOfNumbers;
+        return;
     }
+    setPreviousNum("")
+    setOperation()
   };
+
+  const deleteSign = () => {
+    if (currentNum.length > 0) {
+      setcurrentNum(currentNum.slice(0, currentNum.length - 1));
+    }
+  }
 
   return (
     <section className={styles.layout}>
       <Calculator
-        stringOfNumbers={stringOfNumbers}
-        setStringOfNumbers={setStringOfNumbers}
         resulCalculation={resulCalculation}
-        checkForZero={checkForZero}
+        previousNum={previousNum}
+        currentNum={currentNum}
+        operationChoose={operationChoose}
         deleteSign={deleteSign}
+        appendNumber={appendNumber}
+        clearAll={clearAll}
+        operation={operation}
       />
     </section>
   );
